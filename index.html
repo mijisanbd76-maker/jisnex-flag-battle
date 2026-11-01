@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Flags War Arena</title>
+<title>JISNEX Flag Battle</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050816">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
 <style>
 :root{--bg:#050816;--cy:#22e6ee;--ye:#ffc928;--tx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -637,4 +644,5 @@ $("bBg").onclick=()=>$("bgFile").click();
 $("bBgR").onclick=()=>{setBg("");try{localStorage.removeItem(BGK)}catch(e){}};
 $("bgFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1080/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);const u=c.toDataURL("image/jpeg",.82);setBg(u);try{localStorage.setItem(BGK,u)}catch(x){}};im.src=rd.result};rd.readAsDataURL(f);e.target.value=""};
 credits();labels();newMatch(true);st.inGame=false;requestAnimationFrame(loop);
-</script></body></html>
+</script><script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
+</body></html>
