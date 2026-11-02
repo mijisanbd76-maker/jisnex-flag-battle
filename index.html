@@ -112,6 +112,44 @@ h1 b{display:block;color:var(--ye);text-shadow:0 0 18px #f90}
 #shb b{max-width:100%;font-size:.78em;font-weight:900;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
 @keyframes shp{from{box-shadow:0 0 0 .22em #3dff8a,0 0 .5em #3dff8a}to{box-shadow:0 0 0 .22em #3dff8a,0 0 1.4em #3dff8a}}
 </style></head><body>
+<div id="jnx-gate" style="position:fixed;inset:0;z-index:2147483647;background:#050816;display:none;align-items:center;justify-content:center;font-family:system-ui,Arial,sans-serif;padding:20px;box-sizing:border-box">
+  <div style="width:100%;max-width:340px;text-align:center;color:#fff">
+    <img src="icon-192.png" alt="" style="width:120px;height:120px;border-radius:50%;box-shadow:0 0 30px #2aa8ff88">
+    <h2 style="margin:14px 0 4px;font-size:22px">JISNEX Flag Battle</h2>
+    <p style="margin:0 0 18px;color:#9db4d6;font-size:14px">Login to play</p>
+    <input id="jnx-id" type="text" placeholder="ID" autocomplete="off" autocapitalize="none" style="width:100%;box-sizing:border-box;padding:13px;margin-bottom:10px;border-radius:10px;border:1px solid #2a3a63;background:#0d1530;color:#fff;font-size:16px">
+    <input id="jnx-pw" type="password" placeholder="Password" autocomplete="off" style="width:100%;box-sizing:border-box;padding:13px;margin-bottom:10px;border-radius:10px;border:1px solid #2a3a63;background:#0d1530;color:#fff;font-size:16px">
+    <div id="jnx-err" style="min-height:20px;color:#ff6b6b;font-size:14px;margin-bottom:6px"></div>
+    <button id="jnx-btn" style="width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(90deg,#1e90ff,#00c6ff);color:#fff;font-size:17px;font-weight:700">Login</button>
+  </div>
+</div>
+<script>
+(function(){
+  var H="cc9c470744a9f60f83abbb2df8feafa708c422159d091ecb8903dcd17d77b8b6", SALT="jisnex-flag-battle|", KEY="jnx_auth_v1";
+  var gate=document.getElementById("jnx-gate");
+  function ok(){try{return localStorage.getItem(KEY)===H;}catch(e){return false;}}
+  if(ok()){gate.remove();return;}
+  gate.style.display="flex";
+  async function sha(s){
+    var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0");}).join("");
+  }
+  async function go(){
+    var id=document.getElementById("jnx-id").value.trim();
+    var pw=document.getElementById("jnx-pw").value;
+    var h=await sha(SALT+id+":"+pw);
+    if(h===H){
+      try{localStorage.setItem(KEY,H);}catch(e){}
+      gate.remove();
+    }else{
+      document.getElementById("jnx-err").textContent="ID \u09ac\u09be Password \u09ad\u09c1\u09b2";
+    }
+  }
+  document.getElementById("jnx-btn").addEventListener("click",go);
+  document.getElementById("jnx-pw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
+})();
+</script>
+
 
 <div id="home" class="scr on">
 <canvas id="homeCv" width="520" height="520"></canvas>
